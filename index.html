@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout com Perfect Pay</title>
+    <script>
+        async function iniciarCheckout() {
+            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiYTFhYzQ2NjA0ODc1OWQ0ZTk0MTM2OTdhY2FkZTRmZDUzMDhhOTc5Yjk3OWRiNTc3MGU4NDQ5YjNjZDI3ZGEyZTYzN2Y2N2E1Yjc0ZDJkNGIiLCJpYXQiOjE3MjYwMjQwMTEuMjUwNTIxLCJuYmYiOjE3MjYwMjQwMTEuMjUwNTI2LCJleHAiOjE4ODM3OTA0MTEuMjQzMDEsInN1YiI6IjIzNzIzNjUiLCJzY29wZXMiOlsiaW50ZWdyYXRpb24iXX0.Loj8PrxiIIL_dAYrDjkYkodTmcEf-fJ2sZlB4_Pf0W6SLMFznwqOv6NjMyKiPJuEOwH4ZXwiPmRdYfBa42AWDQhzvLXyOJTonHO0RU7xMjyCU6DJ07NM-UkriFAWlNbZ4spGDnI7lWJhSEZK7MW36FgUMqs7hCbuRGJu0-FFvZMEgzyaSQwPu6IOJulAeqwR0HmzNFkC-WVQOWGxcyv56mRJ669PJGR-D4LMPMvlbqQ41KiCArJ3oCl5Wt__Ku5zCW3ET-VYDDVpkjvaywU29uMB5OGEIWLurb-6r5DwS9epLj7UzTF_YuTWm9NTsEOxEaotPaFuWMDMMAzWa6xqcjLriP1IGu0A7ZO2CCiQu0VO3gW-JhlGonKBtFCtJ2k3_Jik9TNksJcOPB_q-grcG0fRHUXmGderAGji32lqq1p-37tzfJw3Qvl2UeMw221bfdr4x8JzdByAeKxRzEJClOErg-zGE9A4Riv8Z-Fu9YkdDH3PWFymDanfXwZW8HMjya2w0FYEwmACYZUgiV_9DNo0_JclceZXcCc3SMkzs1jk5RMWFgw6y-1zeOQlRLalz1Y7ckPrDP1H1hcpBlG4IoSOAIPmB3RSu0x7w6zY0qvF42vhzC3nFhDFKKj6q9At_ak7ihb2Ruj2uhiWW4O-ZJbhHaqHhLQlZMKekOA2-U0';
+            const endpoint = 'https://api.perfectpay.com.br/checkout'; // Substitua com o endpoint correto
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        amount: 1000, // Valor em centavos
+                        currency: 'BRL',
+                        // Adicione outros parâmetros conforme necessário
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data && data.checkoutUrl) {
+                    window.location.href = data.checkoutUrl; // Redireciona para o checkout
+                } else {
+                    console.error('Erro ao iniciar o checkout:', data);
+                }
+            } catch (error) {
+                console.error('Erro na solicitação de checkout:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Bem-vindo à Nossa Loja</h1>
+    <button onclick="iniciarCheckout()">Comprar Agora</button>
+</body>
+</html>
